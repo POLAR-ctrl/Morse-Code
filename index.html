@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Morse Code Converter | POLAR-ctrl</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f2027;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #203a43;
+      padding: 40px 20px;
+      text-align: center;
+      font-size: 38px;
+      font-weight: bold;
+      color: #00d2ff;
+      letter-spacing: 1.5px;
+    }
+
+    .converter {
+      padding: 30px 10%;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 30px;
+      margin-bottom: 20px;
+      color: #00d2ff;
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 20px;
+      margin: 20px 0;
+      font-size: 22px;
+      border: none;
+      border-radius: 10px;
+      background: #2c5364;
+      color: #fff;
+      resize: none;
+      box-shadow: 0 0 10px #00d2ff44;
+    }
+
+    button {
+      padding: 15px 30px;
+      background: #00d2ff;
+      border: none;
+      border-radius: 8px;
+      font-size: 22px;
+      cursor: pointer;
+      color: #000;
+      transition: background 0.3s;
+      margin-bottom: 20px;
+    }
+
+    button:hover {
+      background: #3a7bd5;
+      color: white;
+    }
+
+    footer {
+      background: #203a43;
+      text-align: center;
+      padding: 20px;
+      font-size: 16px;
+      color: #aaa;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        font-size: 28px;
+        padding: 30px 10px;
+      }
+
+      textarea {
+        height: 140px;
+        font-size: 18px;
+      }
+
+      button {
+        font-size: 20px;
+        padding: 12px 25px;
+      }
+      .about {
+  background: #172a3a;
+  padding: 40px 10%;
+  text-align: center;
+  color: #eee;
+  box-shadow: 0 0 10px #00d2ff44;
+  margin-top: 20px;
+  border-top: 2px solid #00d2ff33;
+}
+
+.about h2 {
+  font-size: 32px;
+  color: #00d2ff;
+  margin-bottom: 20px;
+}
+
+.about p {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 15px;
+  color: #ddd;
+}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    POLAR-ctrl | Morse Code Course
+  </header>
+
+  <section class="converter">
+    <h2>Text to Morse</h2>
+    <textarea id="textInput" placeholder="Type your message here..."></textarea>
+    <br>
+    <button onclick="convertToMorse()">Convert to Morse</button>
+    <textarea id="morseOutput" readonly placeholder="Morse code will appear here..."></textarea>
+  </section>
+
+  <section class="converter">
+    <h2>Morse to Text</h2>
+    <textarea id="morseInput" placeholder="Type Morse code here (use . and -)..."></textarea>
+    <br>
+    <button onclick="convertToText()">Convert to Text</button>
+    <textarea id="textOutput" readonly placeholder="Decoded text will appear here..."></textarea>
+  </section>
+  <section class="about">
+  <h2>About POLAR-ctrl</h2>
+  <p>
+    POLAR-ctrl is a futuristic initiative aimed at making complex technologies like Morse Code, encryption, AI, and more accessible to everyone. 
+    Our mission is to empower learners, developers, and innovators by creating powerful, easy-to-use web tools and educational platforms.
+  </p>
+  <p>
+    Whether you're a student, coder, or tech enthusiast, POLAR-ctrl provides tools and tutorials that help you explore the world of code and logic in a fun, visual way.
+  </p>
+</section>
+<a href="https://whatsapp.com/channel/0029VbA61My2v1IzG7Si3C2k" target="_blank" style="position: fixed; bottom: 20px; right: 20px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="50px">
+</a>
+  <footer>
+    © 2025 POLAR-ctrl. All rights reserved.<br>
+    our more sites: <a href="earlymaster.blogspot.com"> EarlyMaster<a><br>
+ &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;   <a href="kathagyaan.blogspot.com"> Katha Gyaan<a><br>
+    
+  </footer>
+
+  <script>
+    const morseCode = {
+      A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.",
+      G: "--.", H: "....", I: "..", J: ".---", K: "-.-", L: ".-..",
+      M: "--", N: "-.", O: "---", P: ".--.", Q: "--.-", R: ".-.",
+      S: "...", T: "-", U: "..-", V: "...-", W: ".--", X: "-..-",
+      Y: "-.--", Z: "--..",
+      0: "-----", 1: ".----", 2: "..---", 3: "...--", 4: "....-",
+      5: ".....", 6: "-....", 7: "--...", 8: "---..", 9: "----.",
+      " ": "/", ".": ".-.-.-", ",": "--..--", "?": "..--..", "!": "-.-.--"
+    };
+
+    const morseToChar = Object.entries(morseCode).reduce((acc, [key, val]) => {
+      acc[val] = key;
+      return acc;
+    }, {});
+
+    function convertToMorse() {
+      const text = document.getElementById("textInput").value.toUpperCase();
+      const morse = text.split("").map(char => morseCode[char] || "").join(" ");
+      document.getElementById("morseOutput").value = morse;
+    }
+
+    function convertToText() {
+      const morse = document.getElementById("morseInput").value.trim();
+      const text = morse.split(" ").map(code => morseToChar[code] || "").join("");
+      document.getElementById("textOutput").value = text;
+    }
+  </script>
+</body>
+</html>

@@ -1,1 +1,276 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Morse Code Converter | POLAR-ctrl</title>
+  <style>
+    * { box-sizing: border-box; }body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  margin: 0;
+}
 
+header {
+  background: #203a43;
+  padding: 35px 15px;
+  text-align: center;
+  font-size: 34px;
+  font-weight: bold;
+  color: #00d2ff;
+  letter-spacing: 1.5px;
+}
+
+.converter {
+  padding: 30px 10%;
+  text-align: center;
+}
+
+h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #00d2ff;
+}
+
+textarea {
+  width: 100%;
+  height: 160px;
+  padding: 18px;
+  margin: 15px 0;
+  font-size: 20px;
+  border: none;
+  border-radius: 10px;
+  background: #2c5364;
+  color: #fff;
+  resize: none;
+  box-shadow: 0 0 10px #00d2ff44;
+}
+
+.btn-group button {
+  padding: 12px 25px;
+  background: #00d2ff;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #000;
+  margin: 8px;
+  transition: 0.3s;
+}
+
+.btn-group button:hover {
+  background: #3a7bd5;
+  color: #fff;
+}
+
+.about {
+  background: #172a3a;
+  padding: 35px 10%;
+  text-align: center;
+  box-shadow: 0 0 10px #00d2ff44;
+  border-top: 2px solid #00d2ff33;
+}
+
+.about p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #ddd;
+}
+
+footer {
+  background: #203a43;
+  text-align: center;
+  padding: 20px;
+  font-size: 15px;
+  color: #aaa;
+}
+
+footer a { color: #00d2ff; text-decoration: none; }
+
+@media (max-width: 768px) {
+  header { font-size: 26px; }
+  textarea { font-size: 17px; height: 130px; }
+}
+
+  </style>
+</head>
+<body><header>POLAR-ctrl | Morse Code Converter</header><section class="converter">
+  <h2>Text → Morse</h2>
+  <textarea id="textInput" placeholder="Type text here..."></textarea>
+  <div class="btn-group">
+    <button onclick="convertToMorse()">Convert</button>
+    <button onclick="clearText()">Clear</button>
+    <button onclick="copyMorse()">Copy Morse</button>
+  </div>
+  <textarea id="morseOutput" readonly placeholder="Morse code output..."></textarea>
+</section><section class="converter">
+  <h2>Morse → Text</h2>
+  <textarea id="morseInput" placeholder="Use . - and / for space"></textarea>
+  <div class="btn-group">
+    <button onclick="convertToText()">Convert</button>
+    <button onclick="clearMorse()">Clear</button>
+  </div>
+  <textarea id="textOutput" readonly placeholder="Decoded text..."></textarea>
+</section><section class="about">
+  <h2>About POLAR-ctrl</h2>
+  <p>POLAR-ctrl focuses on making technologies like Morse Code, encryption and logic-based systems simple and usable for everyone.</p>
+  <p>This tool supports real-time conversion, symbols, numbers and accurate case handling.</p>
+</section><footer>
+  © 2025 POLAR-ctrl<br>
+ 
+</footer><script>
+  const morseCode = {
+    a: ".-", b: "-...", c: "-.-.", d: "-..", e: ".", f: "..-.",
+    g: "--.", h: "....", i: "..", j: ".---", k: "-.-", l: ".-..",
+    m: "--", n: "-.", o: "---", p: ".--.", q: "--.-", r: ".-.",
+    s: "...", t: "-", u: "..-", v: "...-", w: ".--", x: "-..-",
+    y: "-.--", z: "--..",
+    0: "-----", 1: ".----", 2: "..---", 3: "...--", 4: "....-",
+    5: ".....", 6: "-....", 7: "--...", 8: "---..", 9: "----.",
+    " ": "/", ".": ".-.-.-", ",": "--..--", "?": "..--..", "!": "-.-.--"
+  };
+
+  const morseToChar = Object.fromEntries(Object.entries(morseCode).map(([k,v]) => [v,k]));
+
+  function convertToMorse() {
+    const text = document.getElementById("textInput").value;
+    const morse = text
+      .toLowerCase()
+      .split("")
+      .map(ch => morseCode[ch] || "")
+      .join(" ");
+    document.getElementById("morseOutput").value = morse;
+  }
+
+  function convertToText() {
+    const morse = document.getElementById("morseInput").value.trim();
+    const text = morse
+      .split(" ")
+      .map(code => morseToChar[code] || "")
+      .join("");
+
+    // FIX: output text in UPPERCASE for correct display
+    document.getElementById("textOutput").value = text.toUpperCase();
+  }
+
+  function clearText() {
+    textInput.value = "";
+    morseOutput.value = "";
+  }
+
+  function clearMorse() {
+    morseInput.value = "";
+    textOutput.value = "";
+  }
+
+  function copyMorse() {
+    morseOutput.select();
+    document.execCommand("copy");
+    alert("Morse code copied!");
+  }
+</script>
+<!-- Floating Donation Ad -->
+<div id="donationWrapper">
+  <a
+    href="upi://pay?pa=295bhardwaj@fam&pn=Project%20Support&cu=INR"
+    target="_blank"
+    class="donationAd"
+  >
+    <h3>Donate Us</h3>
+
+    <p>
+      Support our mission.  
+      We are working on a very large project that will be launched on  
+      <strong>29 May 2027</strong>.
+    </p>
+
+    <div class="donate-btn">
+      Proceed to Donate
+    </div>
+  </a>
+
+  <button class="close-btn" onclick="closeDonation()">×</button>
+</div>
+
+<style>
+#donationWrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 280px;
+  display: none;
+  z-index: 9999;
+  font-family: Arial, sans-serif;
+}
+
+.donationAd {
+  display: block;
+  background: #020617;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.45);
+}
+
+.donationAd h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.donationAd p {
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.donate-btn {
+  margin-top: 12px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #000;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.close-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  font-size: 18px;
+  cursor: pointer;
+}
+</style>
+
+<script>
+let donationTimer;
+
+// show popup
+function showDonation() {
+  document.getElementById("donationWrapper").style.display = "block";
+}
+
+// hide popup
+function closeDonation() {
+  document.getElementById("donationWrapper").style.display = "none";
+}
+
+// start popup loop
+function startDonationPopup() {
+  showDonation();
+  donationTimer = setInterval(showDonation, 10000); // every 10 sec
+}
+
+// start after site loads (first popup after 10 sec)
+setTimeout(startDonationPopup, 10000);
+</script></body>
+  </html>
